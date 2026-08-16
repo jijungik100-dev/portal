@@ -28,16 +28,21 @@ type-check:
 # Testing
 # ============================================================
 
+# backend/frontend가 둘 다 "app"/"tests" 패키지명을 쓰므로 한 pytest 프로세스에서
+# 같이 수집하면 모듈명이 충돌한다 (ModuleNotFoundError). 별도 프로세스로 분리 실행한다.
 test:
-	pytest
+	pytest backend/tests
+	pytest frontend/tests
 
 # 단일 테스트 실행: make test-one FILE=backend/tests/test_health.py
 test-one:
 	pytest $(FILE) -v
 
 # 패턴 매칭 테스트: make test-match PATTERN="test_create"
+# exit code 5(수집된 테스트 없음)는 패턴이 해당 쪽에 없다는 뜻이라 실패로 치지 않는다.
 test-match:
-	pytest -k "$(PATTERN)" -v
+	pytest backend/tests -k "$(PATTERN)" -v; test $$? -eq 0 -o $$? -eq 5
+	pytest frontend/tests -k "$(PATTERN)" -v; test $$? -eq 0 -o $$? -eq 5
 
 # ============================================================
 # Run
