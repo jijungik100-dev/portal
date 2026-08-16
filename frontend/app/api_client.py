@@ -8,10 +8,12 @@ import logging
 
 import requests
 
+from app.config import get_settings
+
 logger = logging.getLogger(__name__)
 
-# Backend URL (환경에 따라 변경)
-BASE_URL = "http://localhost:8000"
+# Backend URL (YAML 프로파일의 backend_url 설정에서 로딩, APP_PROFILE로 환경별 전환)
+BASE_URL = get_settings().backend_url
 
 # 기본 타임아웃 (초)
 DEFAULT_TIMEOUT = 10

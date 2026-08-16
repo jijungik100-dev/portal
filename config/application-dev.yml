@@ -8,3 +8,6 @@ db_password: dev_password
 api_host: 0.0.0.0
 api_port: 8000
 frontend_port: 8501
+
+# Frontend가 backend에 접근할 때 사용하는 URL (api_host는 서버 bind 주소라 그대로 못 씀)
+backend_url: http://dev-data-portal-api.internal:8000

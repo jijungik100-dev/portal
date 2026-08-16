@@ -43,7 +43,9 @@ module = ["streamlit.*", "pyzipper.*"]
 ignore_missing_imports = true
 
 [tool.pytest.ini_options]
-testpaths = ["backend/tests", "frontend/tests"]
+# backend와 frontend가 동일하게 "app"/"tests" 패키지명을 쓰기 때문에, 한 pytest 프로세스에서
+# 같이 수집하면 모듈명이 충돌한다 (Makefile의 test 타깃이 둘을 별도 프로세스로 분리 실행함).
+# 여기서 testpaths를 지정하지 않는 이유도 동일 — bare `pytest`가 둘을 한번에 모으지 않도록 함.
 python_files = "test_*.py"
 python_functions = "test_*"
 addopts = "-v --tb=short"
