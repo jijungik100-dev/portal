@@ -1,0 +1,26 @@
+from sqlalchemy import create_engine
+from sqlalchemy.orm import Session, sessionmaker
+
+from app.config import get_settings
+
+settings = get_settings()
+
+# SQLite는 check_same_thread=False 필요
+connect_args = {"check_same_thread": False} if settings.db_type == "sqlite" else {}
+
+engine = create_engine(
+    settings.database_url,
+    connect_args=connect_args,
+    pool_pre_ping=True,
+)
+
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+
+def get_db() -> Session:  # type: ignore[misc]
+    """FastAPI Depends용 DB 세션 제너레이터."""
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
