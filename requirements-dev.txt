@@ -4,6 +4,7 @@ ruff>=0.8.0
 # Type checking
 mypy>=1.13.0
 pydantic[mypy]
+types-PyYAML
 
 # Testing
 pytest>=8.0.0

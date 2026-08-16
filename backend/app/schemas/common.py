@@ -1,11 +1,7 @@
-from typing import Generic, TypeVar
-
 from pydantic import BaseModel
 
-T = TypeVar("T")
 
-
-class CommonResponse(BaseModel, Generic[T]):
+class CommonResponse[T](BaseModel):
     """API 공통 응답 envelope.
 
     모든 API 응답은 이 포맷을 따른다.
